@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Phytokit Admin Panel</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #f2f6fc;
+      color: #ffffff;
+    }
+
+    .header {
+      background-color: #004d7a;
+      padding: 20px;
+      text-align: center;
+      border-bottom: 2px solid #ffffff;
+    }
+
+    .header h1 {
+      margin: 0;
+      font-size: 32px;
+    }
+
+    .header p {
+      margin: 5px 0 0;
+    }
+
+    .sidebar {
+      width: 220px;
+      position: fixed;
+      top: 100px;
+      bottom: 0;
+      background-color:#f2f6fc;
+      padding-top: 20px;
+    }
+
+    .sidebar a {
+      padding: 12px 20px;
+      text-decoration: none;
+      display: block;
+      color: black;
+      transition: background-color 0.2s;
+    }
+
+    .sidebar a:hover {
+      background-color: #006199;
+    }
+
+    .content {
+      margin-left: 240px;
+      padding: 30px;
+    }
+
+    h2 {
+      margin-top: 0;
+    }
+
+    .section {
+      background-color: #005a8d;
+      padding: 20px;
+      margin-bottom: 30px;
+      border-radius: 10px;
+    }
+
+    button {
+      padding: 10px 15px;
+      background-color: #007bb5;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      margin-top: 10px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #009ce0;
+    }
+
+    canvas {
+      background-color: white;
+      border-radius: 10px;
+      padding: 15px;
+      margin-top: 20px;
+    }
+	footer {
+      text-align: center;
+      padding: 10px;
+      background: #004d7a;
+      color: white;
+      margin-top: 20px;
+	  width:100%;
+    } 
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="header">
+    <h1>Phytokit Admin Panel</h1>
+    <p>Admin: <strong>AdminUser</strong> | Location: Liverpool | Date: 10 May 2025</p>
+  </div>
+</header>
+
+<div class="sidebar">
+  <a href="#">📡 Phytotron Control</a>
+  <a href="#">👥 Manage Users</a>
+  <a href="#">📊 View Sensor Data</a>
+  <a href="#">📁 System Logs</a>
+  <a href="#">⚙️ Settings</a>
+</div>
+
+<div class="content">
+
+  <div class="section">
+    <h2>📡 Phytotron Control</h2>
+    <p>Remotely control devices and environmental parameters of the phytotron system here.</p>
+    <button>Toggle Water Pump</button>
+    <button>Adjust Light Intensity</button>
+    <button>Start Ventilation</button>
+  </div>
+
+  <div class="section">
+    <h2>👥 Manage Users</h2>
+    <p>View, add, or remove access to registered users on the system.</p>
+    <button>View Users</button>
+    <button>Add New User</button>
+    <button>Revoke Access</button>
+  </div>
+
+  <div class="section">
+    <h2>📊 View Sensor Data</h2>
+    <p>Select data type to view:</p>
+    <select id="dataType">
+      <option value="temperature">Temperature</option>
+      <option value="humidity">Humidity</option>
+      <option value="moisture">Soil Moisture</option>
+      <option value="light">Light Level</option>
+    </select>
+    <button onclick="showGraph()">View Graph</button>
+
+    <canvas id="sensorChart" width="600" height="250"></canvas>
+  </div>
+
+  <div class="section">
+    <h2>📁 System Logs</h2>
+    <p>Display logs related to system activity, errors, and data uploads.</p>
+    <ul>
+      <li>10 May 2025 - 16:10 - User 'Rivindi' logged in</li>
+      <li>10 May 2025 - 16:12 - Sensor data uploaded successfully</li>
+      <li>10 May 2025 - 16:15 - Light adjusted via admin panel</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2>⚙️ Settings</h2>
+    <p>Adjust thresholds, data upload frequency, and system preferences.</p>
+    <button>Edit Thresholds</button>
+    <button>Update Firmware</button>
+  </div>
+
+</div>
+<div> 
+  <footer>
+    &copy; 2025 Phytokit by Rivindi | IoT Based Phytotron environmental monitoring and control system. 
+  </footer>
+ </div> 
+<script>
+  function showGraph() {
+    const type = document.getElementById("dataType").value;
+    const ctx = document.getElementById("sensorChart").getContext("2d");
+
+    const labels = [
+      '15:00', '15:03', '15:06', '15:09', '15:12', '15:15',
+      '15:18', '15:21', '15:24', '15:27', '15:30', '15:33',
+      '15:36', '15:39', '15:42', '15:45', '15:48', '15:51',
+      '15:54', '15:57', '16:00', '16:03', '16:06', '16:09', '16:12', '16:15', '16:18', '16:21'
+    ];
+
+    let data = [];
+
+    switch (type) {
+      case "temperature":
+        data = [21, 21.2, 21.3, 21.5, 21.6, 21.8, 21.9, 22.0, 22.1, 22.1, 22.0, 21.9, 22.1, 22.2, 22.3, 22.3, 22.4, 22.5, 22.5, 22.6, 22.5, 22.5, 22.6, 22.6, 22.7, 22.8, 22.8, 22.9];
+        break;
+      case "humidity":
+        data = [60, 61, 62, 63, 62, 60, 61, 60, 59, 58, 60, 62, 64, 63, 62, 61, 62, 63, 62, 61, 60, 60, 61, 62, 63, 64, 63, 62];
+        break;
+      case "moisture":
+        data = [450, 455, 460, 455, 460, 462, 465, 460, 458, 459, 461, 463, 466, 465, 464, 463, 460, 462, 465, 468, 470, 471, 472, 471, 470, 468, 467, 465];
+        break;
+      case "light":
+        data = [800, 805, 810, 820, 830, 825, 820, 815, 810, 805, 800, 800, 805, 810, 815, 820, 825, 830, 830, 828, 825, 820, 818, 815, 812, 810, 805, 800];
+        break;
+    }
+
+    new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: labels,
+        datasets: [{
+          label: `${type.charAt(0).toUpperCase() + type.slice(1)} over Time`,
+          data: data,
+          borderColor: "#ffcc00",
+          backgroundColor: "rgba(255, 204, 0, 0.3)",
+          borderWidth: 2,
+          pointRadius: 3
+        }]
+      },
+      options: {
+        scales: {
+          y: {
+            beginAtZero: false
+          }
+        }
+      }
+    });
+  }
+</script>
+
+</body>
+</html>

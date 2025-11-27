@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Phytokit – General Data View</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+   
+    .dropdown a:hover {
+      background-color: #f0f0f0;
+    }
+
+	body {
+      font-family: Arial, sans-serif;
+      background: #f2f6fc;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      background: #004d7a;
+      color: white;
+      padding: 20px;
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+    .hamburger {
+      font-size: 24px;
+      background: none;
+      border: none;
+      color: white;
+      cursor: pointer;
+      margin-right: 20px;
+    }
+    .header-title {
+      flex-grow: 1;
+      text-align: center;
+    }
+    .header-title h1 {
+      margin: 0;
+      font-size: 1.8rem;
+	  font-weight: bold;
+    }
+    .header-subtitle-row {
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+      font-size: 14px;
+      margin-top: 5px;
+    }
+    .dropdown {
+      display: none;
+      position: absolute;
+      top: 60px;
+      left: 20px;
+      background-color: white;
+      color: black;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+      z-index: 1;
+      min-width: 220px;
+    }
+    .dropdown a {
+      display: block;
+      padding: 10px;
+      text-decoration: none;
+      color: black;
+    }
+    .dropdown a:hover {
+      background-color: #f2f2f2;
+    }
+    .summary {
+      display: flex;
+      justify-content: space-around;
+      padding: 20px;
+      background: #e8eef5;
+    }
+    .summary div {
+      background: white;
+      padding: 15px;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      width: 22%;
+      text-align: center;
+    }
+    .table-section {
+      padding: 20px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+      background-color: white;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    th, td {
+      padding: 8px;
+      text-align: center;
+      border: 1px solid #ccc;
+    }
+    .charts {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-around;
+      padding: 20px;
+    }
+    .chart-container {
+      background: white;
+      margin: 10px;
+      padding: 15px;
+      border-radius: 8px;
+      width: 40%;
+      height: 250px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    canvas {
+      width: 100% !important;
+      height: 200px !important;
+    }
+    footer {
+      text-align: center;
+      padding: 10px;
+      background: #004d7a;
+      color: white;
+      margin-top: 20px;
+    }  
+	  
+  </style>
+</head>
+<body class="bg-gray-100 text-gray-800 font-sans">
+
+  <!-- Header -->
+  <header>
+    <button class="hamburger" onclick="toggleMenu()">☰</button>
+    <div class="header-title">
+      <h1>Phytokit Dashboard</h1>
+      <div class="header-subtitle-row">
+        <span>📍 Liverpool</span>
+        <span>📅 10th May 2025</span>
+        <span>⏰ <span id="time"></span></span>
+      </div>
+    </div>
+	
+    <div class="dropdown" id="dropdownMenu">
+          <a href="#">👤 Rivindi Ekanayake</a>
+    <a href="#">🏠 Dashboard- Custom monitoring</a>
+    <a href="#">📊 General Data View</a>
+    <a href="#">🔥 Thermal Stress Analysis</a>
+    <a href="#">🌿 Optimal Growth Conditions</a>
+	<a href="#">💡 Photoperiodism and Light Stress Studies</a>
+    <a href="#">🌞 Light Sensitivity and Growth Patterns</a>
+    </div>
+  </header>
+
+  <!-- Main Dashboard -->
+  <main class="p-6 space-y-8">
+    
+    <!-- Live Summary -->
+    <section class="bg-white p-6 rounded-lg shadow">
+      <h2 class="text-xl font-semibold mb-4">Live Summary</h2>
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div class="p-4 bg-green-100 border-l-4 border-green-500 rounded shadow">
+          <div class="text-sm font-medium">Temperature</div>
+          <div class="text-xl font-bold">24°C</div>
+          <div class="text-green-600 text-sm">Good</div>
+        </div>
+        <div class="p-4 bg-yellow-100 border-l-4 border-yellow-500 rounded shadow">
+          <div class="text-sm font-medium">Humidity</div>
+          <div class="text-xl font-bold">62%</div>
+          <div class="text-yellow-600 text-sm">Moderate</div>
+        </div>
+        <div class="p-4 bg-red-100 border-l-4 border-red-500 rounded shadow">
+          <div class="text-sm font-medium">Moisture</div>
+          <div class="text-xl font-bold">28%</div>
+          <div class="text-red-600 text-sm">Critical</div>
+        </div>
+        <div class="p-4 bg-green-100 border-l-4 border-green-500 rounded shadow">
+          <div class="text-sm font-medium">Light</div>
+          <div class="text-xl font-bold">750 lux</div>
+          <div class="text-green-600 text-sm">Good</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Data Logs Table -->
+<section class="bg-white p-6 rounded-lg shadow">
+  <div class="flex justify-between items-center mb-4">
+    <h2 class="text-xl font-semibold">Sensor Data Logs</h2>
+    <button class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">Export CSV</button>
+  </div>
+  <div class="overflow-x-auto">
+    <table class="w-full table-auto text-left border-collapse 1px solid">
+      <thead class="bg-gray-100 text-gray-700">
+	  <thead>
+        <tr><th>Time</th><th>Temp (°C)</th><th>Humidity (%)</th><th>Moisture (%)</th><th>Light (LUX)</th></tr>
+      </thead>
+        <tbody>
+      <tr><td>10/05/2025 15:00</td><td>20.9</td><td>63.89</td><td>51</td><td>694</td></tr>
+      <tr><td>10/05/2025 15:03</td><td>20.9</td><td>68.24</td><td>58</td><td>725</td></tr>
+      <tr><td>10/05/2025 15:06</td><td>21.05</td><td>60.28</td><td>36</td><td>780</td></tr>
+      <tr><td>10/05/2025 15:09</td><td>21.01</td><td>59.51</td><td>64</td><td>638</td></tr>
+      <tr><td>10/05/2025 15:12</td><td>21.11</td><td>51.88</td><td>36</td><td>774</td></tr>
+      <tr><td>10/05/2025 15:15</td><td>21.1</td><td>50.14</td><td>35</td><td>622</td></tr>
+      <tr><td>10/05/2025 15:18</td><td>21.16</td><td>57.47</td><td>33</td><td>533</td></tr>
+      <tr><td>10/05/2025 15:21</td><td>21.17</td><td>68.49</td><td>42</td><td>565</td></tr>
+      <tr><td>10/05/2025 15:24</td><td>21.14</td><td>59.31</td><td>62</td><td>723</td></tr>
+      <tr><td>10/05/2025 15:27</td><td>21.3</td><td>45.75</td><td>56</td><td>669</td></tr>
+      <tr><td>10/05/2025 15:30</td><td>21.26</td><td>46.67</td><td>41</td><td>540</td></tr>
+      <tr><td>10/05/2025 15:33</td><td>21.32</td><td>59.89</td><td>33</td><td>767</td></tr>
+      <tr><td>10/05/2025 15:36</td><td>24.1</td><td>66.3</td><td>41</td><td>198</td></tr>
+      <tr><td>10/05/2025 15:39</td><td>25.8</td><td>63.9</td><td>39</td><td>220</td></tr>
+      <tr><td>10/05/2025 15:42</td><td>27.7</td><td>61.1</td><td>36</td><td>231</td></tr>
+      <tr><td>10/05/2025 15:45</td><td>29.5</td><td>59.2</td><td>34</td><td>245</td></tr>
+      <tr><td>10/05/2025 15:48</td><td>31</td><td>57</td><td>32</td><td>260</td></tr>
+      <tr><td>10/05/2025 15:51</td><td>32.8</td><td>54.5</td><td>30</td><td>270</td></tr>
+      <tr><td>10/05/2025 15:54</td><td>33.9</td><td>53</td><td>28</td><td>272</td></tr>
+      <tr><td>10/05/2025 15:57</td><td>34.4</td><td>52.2</td><td>26</td><td>275</td></tr>
+      <tr><td>10/05/2025 16:00</td><td>34.6</td><td>51</td><td>24</td><td>277</td></tr>
+      <tr><td>10/05/2025 16:03</td><td>33.5</td><td>52.8</td><td>35</td><td>275</td></tr>
+      <tr><td>10/05/2025 16:06</td><td>21.61</td><td>68.41</td><td>64</td><td>774</td></tr>
+      <tr><td>10/05/2025 16:09</td><td>21.52</td><td>54.02</td><td>61</td><td>553</td></tr>
+      <tr><td>10/05/2025 16:12</td><td>21.56</td><td>55.96</td><td>51</td><td>641</td></tr>
+      <tr><td>10/05/2025 16:15</td><td>21.58</td><td>53.74</td><td>67</td><td>728</td></tr>
+      <tr><td>10/05/2025 16:18</td><td>21.68</td><td>68.96</td><td>53</td><td>511</td></tr>
+      <tr><td>10/05/2025 16:21</td><td>21.71</td><td>49.36</td><td>64</td><td>500</td></tr>
+      <tr><td>10/05/2025 16:24</td><td>21.77</td><td>64.55</td><td>56</td><td>598</td></tr>
+      <tr><td>10/05/2025 16:27</td><td>21.74</td><td>50.11</td><td>30</td><td>787</td></tr>
+      <tr><td>10/05/2025 16:30</td><td>21.63</td><td>63.51</td><td>62</td><td>591</td></tr>
+      <tr><td>10/05/2025 16:33</td><td>21.78</td><td>49.49</td><td>69</td><td>727</td></tr>
+      <tr><td>10/05/2025 16:36</td><td>21.76</td><td>67.67</td><td>42</td><td>793</td></tr>
+      <tr><td>10/05/2025 16:39</td><td>21.86</td><td>61.76</td><td>58</td><td>711</td></tr>
+      <tr><td>10/05/2025 16:42</td><td>21.88</td><td>69.63</td><td>44</td><td>504</td></tr>
+      <tr><td>10/05/2025 16:45</td><td>21.81</td><td>64.8</td><td>37</td><td>733</td></tr>
+      <tr><td>10/05/2025 16:48</td><td>21.95</td><td>61.09</td><td>41</td><td>767</td></tr>
+      <tr><td>10/05/2025 16:51</td><td>21.93</td><td>62.27</td><td>33</td><td>646</td></tr>
+      <tr><td>10/05/2025 16:54</td><td>21.99</td><td>57.73</td><td>30</td><td>651</td></tr>
+      <tr><td>10/05/2025 16:57</td><td>21.93</td><td>54.12</td><td>43</td><td>633</td></tr>
+    </tbody>
+    </table>
+  </div>
+</section>
+
+    <!-- Charts & Graphs -->
+    <section class="bg-white p-6 rounded-lg shadow">
+      <h2 class="text-xl font-semibold mb-4">Charts & Graphs</h2>
+      <div class="grid md:grid-cols-2 gap-4">
+        <div class="bg-gray-50 p-4 rounded shadow">Line Chart (Temperature)</div>
+        <div class="bg-gray-50 p-4 rounded shadow">Bar Chart (Humidity)</div>
+      </div>
+    </section>
+
+    <!-- Alerts & Thresholds -->
+    <section class="bg-white p-6 rounded-lg shadow">
+      <h2 class="text-xl font-semibold mb-4">Alerts & Thresholds</h2>
+      <ul class="list-disc ml-5 space-y-2 text-sm">
+        <li>⚠️ Moisture dropped below 30% at 15:51 PM</li>
+        <li>⚠️ Humidity reached critical level at 16:00 PM</li>
+      </ul>
+    </section>
+
+    <!-- Control Panel -->
+    <section class="bg-white p-6 rounded-lg shadow">
+      <h2 class="text-xl font-semibold mb-4">Control Panel</h2>
+      <div class="flex gap-4">
+        <button class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Manual Fan</button>
+        <button class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Pump Water</button>
+        <button class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Toggle LED</button>
+      </div>
+    </section>
+
+    <!-- Research Tools -->
+    <section class="bg-white p-6 rounded-lg shadow">
+      <h2 class="text-xl font-semibold mb-4">Research Tools</h2>
+      <div class="mb-4">
+        <label class="block mb-2 font-medium">Tag Data:</label>
+        <input type="text" placeholder="e.g., Drought experiment" class="border p-2 w-full rounded" />
+      </div>
+      <div>
+        <label class="block mb-2 font-medium">Notes:</label>
+        <textarea class="border p-2 w-full rounded" rows="4" placeholder="Enter notes about this data batch..."></textarea>
+      </div>
+    </section>
+
+  </main>
+  <footer>
+    &copy; 2025 Phytokit by Rivindi | IoT Based Phytotron environmental monitoring and control system. 
+  </footer>
+
+  <script>
+    // Date/time
+    function updateTime() {
+      const now = new Date();
+      document.getElementById("time").textContent = now.toLocaleTimeString();
+    }
+    updateTime();
+    setInterval(updateTime, 60000);
+
+    // Dropdown toggle
+    function toggleMenu() {
+      const menu = document.getElementById("dropdownMenu");
+      menu.style.display = menu.style.display === "block" ? "none" : "block";
+    }
+
+    // Close dropdown on click outside
+    window.onclick = function(event) {
+      if (!event.target.matches('.hamburger')) {
+        const dropdown = document.getElementById("dropdownMenu");
+        if (dropdown.style.display === "block") {
+          dropdown.style.display = "none";
+        }
+      }
+    }
+  </script>
+</body>
+</html>
